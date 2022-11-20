@@ -8,6 +8,8 @@ group = 'tech.rendezvous'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
+description = 'Provides functionality for centralizing the application configuration.'
+
 repositories {
     mavenCentral()
 }
@@ -24,6 +26,19 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+bootBuildImage {
+    imageName = "${project.name}"
+    environment = ["BP_JVM_VERSION": "17.*"]
+
+    docker {
+        publishRegistry {
+            username = project.findProperty("registryUsername")
+            password = project.findProperty("registryToken")
+            url = project.findProperty("registryUrl")
+        }
     }
 }
 
